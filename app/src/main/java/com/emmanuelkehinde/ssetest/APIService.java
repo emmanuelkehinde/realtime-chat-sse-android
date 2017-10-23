@@ -17,4 +17,7 @@ public interface APIService {
     @FormUrlEncoded
     Call<JsonObject> send(@Field("msg") String message,
                           @Field("sender") String sender);
+
+    @POST("messages/clear")
+    Call<String> clearMessages();
 }

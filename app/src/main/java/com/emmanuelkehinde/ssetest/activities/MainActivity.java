@@ -8,6 +8,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -129,6 +131,43 @@ public class MainActivity extends AppCompatActivity {
         if (eventSource != null)
             eventSource.close();
         sseHandler = null;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()==R.id.menu_clear){
+            clearMessages();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void clearMessages() {
+        progressDialog.setMessage("Clearing Messages...");
+        progressDialog.show();
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://sse-chat-test.herokuapp.com/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        APIService apiService=retrofit.create(APIService.class);
+        Call<String> clearCall=apiService.clearMessages();
+        clearCall.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                progressDialog.hide();
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                progressDialog.hide();
+            }
+        });
     }
 
     /**
