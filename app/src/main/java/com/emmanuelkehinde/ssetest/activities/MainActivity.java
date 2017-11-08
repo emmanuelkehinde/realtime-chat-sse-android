@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startEventSource() {
         progressDialog.show();
-        eventSource = new EventSource.Builder("https://sse-chat-test.herokuapp.com/message/sse")
+        eventSource = new EventSource.Builder(BASE_URL+ "message/sse")
                 .eventHandler(sseHandler)
                 .build();
         eventSource.connect();
