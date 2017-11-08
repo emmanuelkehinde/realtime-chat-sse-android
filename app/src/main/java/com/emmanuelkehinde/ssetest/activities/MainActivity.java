@@ -37,6 +37,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final String BASE_URL = "BASE_URL_HERE";
     private RecyclerView chatRecyc;
     private EventSource eventSource;
     private ProgressDialog progressDialog;
@@ -83,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         String message=edt_message.getText().toString();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://sse-chat-test.herokuapp.com/")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -151,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setMessage("Clearing Messages...");
         progressDialog.show();
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://sse-chat-test.herokuapp.com/")
+                .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
